@@ -1,100 +1,142 @@
-# Kế Hoạch Dự Án Website Nghe Nhạc Trực Tuyến
+Kế Hoạch Dự Án Website Nghe Nhạc Trực Tuyến
+1. Mục Tiêu Dự Án
 
----
+Xây dựng website nghe nhạc trực tuyến.
+Cho phép admin upload, quản lý bài hát.
+Người dùng có thể tìm kiếm, nghe nhạc trực tuyến dễ dàng.
+Giao diện thân thiện, responsive trên đa thiết bị.
 
-## 1. Mục Tiêu Dự Án
-- Xây dựng website nghe nhạc trực tuyến 
-- Cho phép admin upload, quản lý bài hát.
-- Người dùng có thể tìm kiếm, nghe nhạc trực tuyến dễ dàng.
-- Giao diện thân thiện, responsive trên đa thiết bị.
-
----
-
-## 2. Công Nghệ Sử Dụng
-| Thành phần   | Công nghệ / Dịch vụ               | Ghi chú                           |
-|--------------|----------------------------------|----------------------------------|
-| Frontend     | ReactJS + Vercel/Netlify          | Deploy frontend, giao diện hiện đại |
-| Backend      | Python (Django/Flask/FastAPI) + Railway/Render.com | API server, xử lý logic backend  |
-| Database     | PlanetScale (MySQL cloud)         | Lưu trữ metadata bài hát          |
-| Storage      | Firebase Storage hoặc AWS S3      | Lưu trữ file nhạc                |
-| Nhạc mẫu     | Pixabay Music, Jamendo, Free Music Archive | Nhạc miễn phí, hợp pháp          |
-
----
-
-## 3. Chức Năng Chính
-### Frontend
-- Hiển thị danh sách bài hát, tìm kiếm bài hát theo tên, nghệ sĩ.
-- Phát nhạc trực tiếp trên trình duyệt qua player.
-- Popup hoặc player nổi khi phát nhạc.
-- Giao diện quản lý đơn giản cho admin.
-
-### Backend
-- API RESTful: CRUD bài hát, user, playlist.
-- Xử lý upload file nhạc lên cloud storage.
-- Lưu metadata bài hát (tên, ca sĩ, URL, ảnh bìa...) vào database.
-- Quản lý user admin để upload/sửa/xóa bài hát.
-
----
-
-## 4. Kiến Trúc Hệ Thống
-
-- Frontend ReactJS (Vercel/Netlify)
-    ↓
-- Backend Python (Railway/Render.com)
-    ↓
-- PlanetScale MySQL
-    ↓
-- Firebase Storage / AWS S3
+2. Công Nghệ Sử Dụng
 
 
----
 
-## 5. Quy Trình Triển Khai
-
-| Bước               | Mô tả                                         | Thời gian dự kiến |
-|--------------------|-----------------------------------------------|-------------------|
-| Thiết kế giao diện frontend | Phát triển React app, thiết kế UI/UX         | 1 tuần            |
-| Xây dựng backend API       | Setup Python backend, tạo API quản lý bài hát | 1 tuần            |
-| Tích hợp lưu trữ file      | Kết nối backend với Firebase Storage/AWS S3   | 3 ngày            |
-| Kết nối frontend-backend   | Gọi API, xử lý phát nhạc, UI player            | 3 ngày            |
-| Kiểm thử và hoàn thiện     | Test chức năng, sửa lỗi                          | 3 ngày            |
-| Triển khai                 | Deploy frontend lên Vercel, backend lên Railway/Render | 1 ngày            |
-
----
-
-## 6. Công Cụ Hỗ Trợ
-- Git & GitHub/GitLab để quản lý mã nguồn.
-- Postman/Insomnia để test API.
-- Firebase Console hoặc AWS Console quản lý lưu trữ.
-- Dashboard Vercel, Railway hoặc Render để quản lý deploy.
-
----
-
-## 7. Rủi Ro và Giải Pháp
-
-| Rủi ro                       | Giải pháp                                    |
-|-----------------------------|----------------------------------------------|
-| Giới hạn băng thông dịch vụ  | Giám sát, tối ưu truy cập, nâng cấp khi cần |
-| Vấn đề CORS khi gọi API      | Cấu hình CORS backend chính xác              |
-| Upload file lớn gặp lỗi      | Giới hạn kích thước, xử lý upload chunk      |
-| Bản quyền nhạc               | Sử dụng nhạc miễn phí, hợp pháp               |
-
----
-
-## 8. Kết Luận
-Dự án sẽ giúp bạn:
-- Học tập quy trình phát triển web fullstack.
-- Thực hành tích hợp frontend-backend và dịch vụ lưu trữ.
-- Triển khai ứng dụng trên nền tảng miễn phí hiệu quả.
+Thành phần
+Công nghệ / Dịch vụ
+Ghi chú
 
 
-Để xây dựng một dự án website nghe nhạc trực tuyến, cấu trúc thư mục hợp lý sẽ giúp bạn dễ dàng quản lý mã nguồn và phát triển lâu dài. Dưới đây là một cấu trúc thư mục cơ bản cho dự án của bạn, chia thành 2 phần: **Frontend (React)** và **Backend (Python)**.
 
----
+Frontend
+ReactJS + Vercel/Netlify
+Deploy frontend, giao diện hiện đại
 
-### **1. Cấu trúc thư mục cho Frontend (ReactJS)**
 
-```
+Backend
+Python (Django/Flask/FastAPI) + Railway/Render.com
+API server, xử lý logic backend
+
+
+Database
+PlanetScale (MySQL cloud)
+Lưu trữ metadata bài hát
+
+
+Storage
+Firebase Storage hoặc AWS S3
+Lưu trữ file nhạc
+
+
+Nhạc mẫu
+Pixabay Music, Jamendo, Free Music Archive
+Nhạc miễn phí, hợp pháp
+
+
+3. Chức Năng Chính
+Frontend
+
+Hiển thị danh sách bài hát, tìm kiếm bài hát theo tên, nghệ sĩ.
+Phát nhạc trực tiếp trên trình duyệt qua player.
+Popup hoặc player nổi khi phát nhạc.
+Giao diện quản lý đơn giản cho admin.
+
+Backend
+
+API RESTful: CRUD bài hát, user, playlist.
+Xử lý upload file nhạc lên cloud storage.
+Lưu metadata bài hát (tên, ca sĩ, URL, ảnh bìa...) vào database.
+Quản lý user admin để upload/sửa/xóa bài hát.
+
+4. Kiến Trúc Hệ Thống
+
+Frontend ReactJS (Vercel/Netlify)  ↓
+Backend Python (Railway/Render.com)  ↓
+PlanetScale MySQL  ↓
+Firebase Storage / AWS S3
+
+5. Quy Trình Triển Khai
+
+
+
+Bước
+Mô tả
+Thời gian dự kiến
+
+
+
+Thiết kế giao diện frontend
+Phát triển React app, thiết kế UI/UX
+1 tuần
+
+
+Xây dựng backend API
+Setup Python backend, tạo API quản lý bài hát
+1 tuần
+
+
+Tích hợp lưu trữ file
+Kết nối backend với Firebase Storage/AWS S3
+3 ngày
+
+
+Kết nối frontend-backend
+Gọi API, xử lý phát nhạc, UI player
+3 ngày
+
+
+Kiểm thử và hoàn thiện
+Test chức năng, sửa lỗi
+3 ngày
+
+
+Triển khai
+Deploy frontend lên Vercel, backend lên Railway/Render
+1 ngày
+
+
+6. Công Cụ Hỗ Trợ
+
+Git & GitHub/GitLab để quản lý mã nguồn.
+Postman/Insomnia để test API.
+Firebase Console hoặc AWS Console quản lý lưu trữ.
+Dashboard Vercel, Railway hoặc Render để quản lý deploy.
+
+7. Rủi Ro và Giải Pháp
+
+
+
+Rủi ro
+Giải pháp
+
+
+
+Giới hạn băng thông dịch vụ
+Giám sát, tối ưu truy cập, nâng cấp khi cần
+
+
+Vấn đề CORS khi gọi API
+Cấu hình CORS backend chính xác
+
+
+Upload file lớn gặp lỗi
+Giới hạn kích thước, xử lý upload chunk
+
+
+Bản quyền nhạc
+Sử dụng nhạc miễn phí, hợp pháp
+
+
+8. Cấu Trúc Thư Mục
+Cấu trúc thư mục cho Frontend (ReactJS)
 frontend/
 ├── public/
 │   ├── index.html          # Tệp HTML chính của ứng dụng
@@ -131,11 +173,8 @@ frontend/
 ├── .env                    # Biến môi trường (API keys, endpoints)
 ├── package.json            # Các phụ thuộc của frontend
 └── README.md               # Tài liệu mô tả dự án
-```
 
-### **2. Cấu trúc thư mục cho Backend (Python)**
-
-```
+Cấu trúc thư mục cho Backend (Python)
 backend/
 ├── app/
 │   ├── __init__.py         # Khởi tạo ứng dụng Flask/Django/FastAPI
@@ -163,45 +202,39 @@ backend/
 ├── Dockerfile              # Docker container cho ứng dụng
 ├── .env                    # Biến môi trường backend (DB credentials, API keys, v.v.)
 └── README.md               # Tài liệu mô tả dự án
-```
 
-### **3. Cấu trúc thư mục chung**
-
-Để quản lý các môi trường và quá trình triển khai, bạn có thể bổ sung thêm các thư mục liên quan đến việc triển khai và công cụ hỗ trợ:
-
-```
+Cấu trúc thư mục chung
 root/
 ├── frontend/               # Mã nguồn frontend (ReactJS)
 ├── backend/                # Mã nguồn backend (Python)
 ├── .gitignore              # Các file và thư mục cần loại trừ khỏi Git
 ├── docker-compose.yml      # Cấu hình Docker Compose để quản lý các dịch vụ
 └── README.md               # Tổng quan dự án
-```
 
-### **Giải thích cấu trúc thư mục**
+Giải thích cấu trúc thư mục
 
-1. **Frontend**:
+Frontend:
+components: Các thành phần giao diện tái sử dụng (ví dụ: player, search bar, song list).
+contexts: Quản lý trạng thái toàn cục với React Context.
+services: Các dịch vụ API gọi tới backend.
+pages: Các trang chính của website (home, search, admin).
 
-   * **components**: Các thành phần giao diện tái sử dụng (ví dụ: player, search bar, song list).
-   * **contexts**: Quản lý trạng thái toàn cục với React Context.
-   * **services**: Các dịch vụ API gọi tới backend.
-   * **pages**: Các trang chính của website (home, search, admin).
-2. **Backend**:
 
-   * **models**: Các mô hình dữ liệu tương ứng với các bảng trong database (như bài hát, người dùng).
-   * **routes**: Các endpoint API cho các hành động (CRUD) đối với bài hát, người dùng.
-   * **services**: Các chức năng hỗ trợ như upload nhạc, xử lý metadata, v.v.
-   * **utils**: Các tiện ích phụ trợ như cấu hình, helper functions.
-3. **Các tệp cấu hình**:
+Backend:
+models: Các mô hình dữ liệu tương ứng với các bảng trong database (như bài hát, người dùng).
+routes: Các endpoint API cho các hành động (CRUD) đối với bài hát, người dùng.
+services: Các chức năng hỗ trợ như upload nhạc, xử lý metadata, v.v.
+utils: Các tiện ích phụ trợ như cấu hình, helper functions.
 
-   * **.env**: Biến môi trường giúp lưu trữ các thông tin nhạy cảm như API keys, thông tin đăng nhập database.
-   * **Dockerfile & docker-compose.yml**: Nếu bạn sử dụng Docker để triển khai ứng dụng, đây là những tệp cần thiết để xây dựng và quản lý môi trường container.
 
----
+Các tệp cấu hình:
+.env: Biến môi trường giúp lưu trữ các thông tin nhạy cảm như API keys, thông tin đăng nhập database.
 
-### Lưu ý:
 
-* **Quản lý code version**: Đảm bảo rằng các thư mục frontend và backend được theo dõi riêng biệt trong Git để quản lý dễ dàng hơn.
-* **API và CORS**: Khi frontend và backend được phát triển riêng biệt, nhớ cấu hình CORS đúng cách để tránh lỗi khi gọi API.
 
-Cấu trúc này giúp bạn quản lý tốt dự án và phát triển thêm các tính năng trong tương lai. Bạn thấy thế nào về cấu trúc này? Cần thay đổi gì không?
+9. Kết Luận
+Dự án sẽ giúp bạn:
+
+Học tập quy trình phát triển web fullstack.
+Thực hành tích hợp frontend-backend và dịch vụ lưu trữ.
+Triển khai ứng dụng trên nền tảng miễn phí hiệu quả.
