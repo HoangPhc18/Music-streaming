@@ -137,7 +137,7 @@ Sử dụng nhạc miễn phí, hợp pháp
 
 8. Cấu Trúc Thư Mục
 Cấu trúc thư mục cho Frontend (ReactJS)
-frontend/
+web/
 ├── public/
 │   ├── index.html          # Tệp HTML chính của ứng dụng
 │   ├── assets/             # Thư mục chứa các tài nguyên như ảnh, font, v.v.
@@ -170,12 +170,11 @@ frontend/
 │   ├── App.css             # Các kiểu CSS chung
 │   └── index.css           # Kiểu CSS toàn cục
 │
-├── .env                    # Biến môi trường (API keys, endpoints)
 ├── package.json            # Các phụ thuộc của frontend
 └── README.md               # Tài liệu mô tả dự án
 
 Cấu trúc thư mục cho Backend (Python)
-backend/
+api/
 ├── app/
 │   ├── __init__.py         # Khởi tạo ứng dụng Flask/Django/FastAPI
 │   ├── models/             # Các mô hình (Model) dữ liệu (User, Song, Playlist, v.v.)
@@ -198,29 +197,26 @@ backend/
 │   ├── static/             # Các tệp tĩnh (nếu có, ví dụ như ảnh bìa)
 │   └── templates/          # Các mẫu HTML (nếu sử dụng Flask hoặc Django)
 │
-├── requirements.txt        # Các thư viện cần thiết cho backend
-├── Dockerfile              # Docker container cho ứng dụng
-├── .env                    # Biến môi trường backend (DB credentials, API keys, v.v.)
+├── requirements.txt        # Các thư viện cần thiết cho backend 
 └── README.md               # Tài liệu mô tả dự án
 
 Cấu trúc thư mục chung
 root/
-├── frontend/               # Mã nguồn frontend (ReactJS)
-├── backend/                # Mã nguồn backend (Python)
+├── web/               # Mã nguồn frontend (ReactJS)
+├── api/                # Mã nguồn backend (Python)
 ├── .gitignore              # Các file và thư mục cần loại trừ khỏi Git
-├── docker-compose.yml      # Cấu hình Docker Compose để quản lý các dịch vụ
 └── README.md               # Tổng quan dự án
 
 Giải thích cấu trúc thư mục
 
-Frontend:
+web:
 components: Các thành phần giao diện tái sử dụng (ví dụ: player, search bar, song list).
 contexts: Quản lý trạng thái toàn cục với React Context.
 services: Các dịch vụ API gọi tới backend.
 pages: Các trang chính của website (home, search, admin).
 
 
-Backend:
+api:
 models: Các mô hình dữ liệu tương ứng với các bảng trong database (như bài hát, người dùng).
 routes: Các endpoint API cho các hành động (CRUD) đối với bài hát, người dùng.
 services: Các chức năng hỗ trợ như upload nhạc, xử lý metadata, v.v.
