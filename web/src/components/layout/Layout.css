@@ -1,0 +1,15 @@
+.sidebar-container {
+  height: 100%;
+}
+
+.main-content {
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: var(--border-radius);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+} 

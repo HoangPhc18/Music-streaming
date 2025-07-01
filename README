@@ -123,3 +123,38 @@ Các thành phần giao diện người dùng phải được thêm vào thư m�
 
 Hướng dẫn triển khai lên môi trường sản xuất sẽ được thêm vào các bản cập nhật trong tương lai.
 
+1. Quản lý người dùng
+Đăng ký: POST /api/auth/register
+Đăng nhập: POST /api/auth/login
+Đăng xuất: POST /api/auth/logout
+Xem thông tin cá nhân: GET /api/users/profile
+Cập nhật thông tin cá nhân: PUT /api/users/profile
+Đổi mật khẩu: PUT /api/auth/change-password
+2. Quản lý bài hát
+Danh sách bài hát: GET /api/songs
+Tìm kiếm bài hát: GET /api/songs/search?q={query}
+Xem chi tiết bài hát: GET /api/songs/{id}
+Thêm bài hát mới (admin): POST /api/songs
+Cập nhật thông tin bài hát (admin): PUT /api/songs/{id}
+Xóa bài hát (admin): DELETE /api/songs/{id}
+3. Phát nhạc
+Phát bài hát: GET /api/songs/{id}/stream
+Lấy URL phát nhạc: GET /api/songs/{id}/play-url
+4. Playlist
+Tạo playlist mới: POST /api/playlists
+Xem danh sách playlist của người dùng: GET /api/users/playlists
+Xem chi tiết playlist: GET /api/playlists/{id}
+Thêm bài hát vào playlist: POST /api/playlists/{id}/songs
+Xóa bài hát khỏi playlist: DELETE /api/playlists/{id}/songs/{song_id}
+Cập nhật thông tin playlist: PUT /api/playlists/{id}
+Xóa playlist: DELETE /api/playlists/{id}
+5. Nghệ sĩ và album
+Danh sách nghệ sĩ: GET /api/artists
+Chi tiết nghệ sĩ: GET /api/artists/{id}
+Bài hát của nghệ sĩ: GET /api/artists/{id}/songs
+Danh sách album: GET /api/albums
+Chi tiết album: GET /api/albums/{id}
+Bài hát trong album: GET /api/albums/{id}/songs
+6. Thể loại nhạc
+Danh sách thể loại: GET /api/genres
+Bài hát theo thể loại: GET /api/genres/{id}/songs

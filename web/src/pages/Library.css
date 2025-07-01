@@ -1,0 +1,235 @@
+.library-page {
+  padding-bottom: 30px;
+}
+
+.library-tabs {
+  display: flex;
+  padding: 15px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 30px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.library-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.library-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.library-tab.active {
+  background: var(--accent-color);
+  color: white;
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.library-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.create-btn {
+  display: flex;
+  align-items: center;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-btn svg {
+  margin-right: 8px;
+}
+
+.create-btn:hover {
+  background: var(--accent-hover);
+}
+
+.create-playlist-card {
+  height: 100%;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.create-playlist-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-5px);
+}
+
+.create-playlist-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.create-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.create-playlist-content p {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-prompt {
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: var(--border-radius);
+}
+
+.login-prompt h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.login-prompt p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.songs-list {
+  border-radius: var(--border-radius);
+  padding: 15px;
+  overflow: hidden;
+}
+
+.song-list-header {
+  display: grid;
+  grid-template-columns: 50px 3fr 2fr 1fr 1fr 50px;
+  padding: 0 15px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.song-item {
+  display: grid;
+  grid-template-columns: 50px 3fr 2fr 1fr 1fr 50px;
+  padding: 10px 15px;
+  align-items: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.song-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.song-number {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.song-info {
+  display: flex;
+  align-items: center;
+}
+
+.song-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.song-details h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.song-details p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.song-album, .song-date, .song-duration {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+  .library-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .library-header h2 {
+    margin-bottom: 15px;
+  }
+  
+  .song-list-header, .song-item {
+    grid-template-columns: 40px 3fr 2fr 50px;
+  }
+  
+  .song-date, .song-duration {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .song-list-header, .song-item {
+    grid-template-columns: 40px 3fr 50px;
+  }
+  
+  .song-album {
+    display: none;
+  }
+} 
