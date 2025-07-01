@@ -198,7 +198,7 @@ api/
 │   └── templates/          # Các mẫu HTML (nếu sử dụng Flask hoặc Django)
 │
 ├── requirements.txt        # Các thư viện cần thiết cho backend 
-└── README.md               # Tài liệu mô tả dự án
+└── venv/               # Tài liệu mô tả dự án
 
 Cấu trúc thư mục chung
 root/
