@@ -1,236 +1,125 @@
-Kế Hoạch Dự Án Website Nghe Nhạc Trực Tuyến
-1. Mục Tiêu Dự Án
+# Ứng dụng phát nhạc trực tuyến
+
+Một ứng dụng web đầy đủ để phát nhạc trực tuyến, được xây dựng với Django REST Framework backend và React frontend.
+
+## Cấu trúc dự án
+
+```
+Music-streaming/
+├── api/ # Django backend
+│ ├── music/ # Ứng dụng Django cho chức năng liên quan đến âm nhạc
+│ ├── musicstreaming/ # Cấu hình dự án Django
+│ ├── manage.py # Tập lệnh quản lý Django
+│ └── venv/ # Môi trường ảo Python
+├── web/ # React frontend
+│ ├── public/ # Tệp tĩnh
+│ ├── src/ # Mã nguồn React
+│ ├── package.json # Phụ thuộc NPM
+│ └── node_modules/ # Đã cài đặt Các gói Node.js
+├── data.sql # Dữ liệu SQL để khởi tạo cơ sở dữ liệu
+└── README # Tệp này
+```
+
+## Tính năng
+
+- Xác thực người dùng và quản lý tài khoản
+- Duyệt và tìm kiếm thư viện nhạc
+- Tạo và quản lý danh sách phát
+- Phát nhạc có điều khiển
+- Mục yêu thích và lịch sử của người dùng
+- Thiết kế đáp ứng cho máy tính để bàn và thiết bị di động
+
+## Công nghệ Stack
+
+### Phần cuối
+- Django
+- Django REST Framework
+- Cơ sở dữ liệu SQLite (phát triển)
+- Python 3.x
+
+### Phần đầu
+- React.js
+- React Router để điều hướng
+- Axios cho các yêu cầu API
+- Bootstrap để tạo kiểu
+
+## Hướng dẫn thiết lập
+
+### Thiết lập phần cuối
+
+1. Điều hướng đến thư mục API:
+```
+cd api
+```
+
+2. Kích hoạt môi trường ảo:
+- Windows:
+```
+venv\Scripts\activate
+```
+- macOS/Linux:
+```
+source venv/bin/activate
+```
+
+3. Cài đặt các phụ thuộc (nếu cần):
+```
+pip install -r requirements.txt
+```
+
+4. Áp dụng di chuyển:
+```
+python manage.py migrate
+```
+
+5. Tải dữ liệu ban đầu (tùy chọn):
+```
+python manage.py loaddata data.sql
+```
+
+6. Chạy máy chủ phát triển:
+```
+python manage.py runserver
+```
+
+### Thiết lập giao diện người dùng
+
+1. Điều hướng đến thư mục web:
+```
+cd web
+```
+
+2. Cài đặt các phụ thuộc (nếu cần):
+```
+npm install
+```
+
+3. Khởi động máy chủ phát triển:
+```
+npm start
+```
+
+## Điểm cuối API
 
-Xây dựng website nghe nhạc trực tuyến.
-Cho phép admin upload, quản lý bài hát.
-Người dùng có thể tìm kiếm, nghe nhạc trực tuyến dễ dàng.
-Giao diện thân thiện, responsive trên đa thiết bị.
+- `/api/auth/` - Điểm cuối xác thực
+- `/api/songs/` - Điểm cuối thư viện nhạc
+- `/api/playlists/` - Quản lý danh sách phát
+- `/api/users/` - Quản lý hồ sơ người dùng
 
-2. Công Nghệ Sử Dụng
+## Phát triển
 
+### Thêm bài hát mới
 
+Để thêm bài hát mới vào cơ sở dữ liệu, bạn có thể:
+1. Sử dụng giao diện quản trị Django
+2. Thêm mục vào tệp data.sql và tải lại cơ sở dữ liệu
+3. Sử dụng điểm cuối API với xác thực phù hợp
 
-Thành phần
-Công nghệ / Dịch vụ
-Ghi chú
+### Tạo thành phần mới
 
+Các thành phần giao diện người dùng phải được thêm vào thư mục `web/src/components` theo các mẫu đã thiết lập.
 
+## Triển khai
 
-Frontend
-ReactJS + Vercel/Netlify
-Deploy frontend, giao diện hiện đại
+Hướng dẫn triển khai lên môi trường sản xuất sẽ được thêm vào các bản cập nhật trong tương lai.
 
-
-Backend
-Python (Django/Flask/FastAPI) + Railway/Render.com
-API server, xử lý logic backend
-
-
-Database
-PlanetScale (MySQL cloud)
-Lưu trữ metadata bài hát
-
-
-Storage
-Firebase Storage hoặc AWS S3
-Lưu trữ file nhạc
-
-
-Nhạc mẫu
-Pixabay Music, Jamendo, Free Music Archive
-Nhạc miễn phí, hợp pháp
-
-
-3. Chức Năng Chính
-Frontend
-
-Hiển thị danh sách bài hát, tìm kiếm bài hát theo tên, nghệ sĩ.
-Phát nhạc trực tiếp trên trình duyệt qua player.
-Popup hoặc player nổi khi phát nhạc.
-Giao diện quản lý đơn giản cho admin.
-
-Backend
-
-API RESTful: CRUD bài hát, user, playlist.
-Xử lý upload file nhạc lên cloud storage.
-Lưu metadata bài hát (tên, ca sĩ, URL, ảnh bìa...) vào database.
-Quản lý user admin để upload/sửa/xóa bài hát.
-
-4. Kiến Trúc Hệ Thống
-
-Frontend ReactJS (Vercel/Netlify)  ↓
-Backend Python (Railway/Render.com)  ↓
-PlanetScale MySQL  ↓
-Firebase Storage / AWS S3
-
-5. Quy Trình Triển Khai
-
-
-
-Bước
-Mô tả
-Thời gian dự kiến
-
-
-
-Thiết kế giao diện frontend
-Phát triển React app, thiết kế UI/UX
-1 tuần
-
-
-Xây dựng backend API
-Setup Python backend, tạo API quản lý bài hát
-1 tuần
-
-
-Tích hợp lưu trữ file
-Kết nối backend với Firebase Storage/AWS S3
-3 ngày
-
-
-Kết nối frontend-backend
-Gọi API, xử lý phát nhạc, UI player
-3 ngày
-
-
-Kiểm thử và hoàn thiện
-Test chức năng, sửa lỗi
-3 ngày
-
-
-Triển khai
-Deploy frontend lên Vercel, backend lên Railway/Render
-1 ngày
-
-
-6. Công Cụ Hỗ Trợ
-
-Git & GitHub/GitLab để quản lý mã nguồn.
-Postman/Insomnia để test API.
-Firebase Console hoặc AWS Console quản lý lưu trữ.
-Dashboard Vercel, Railway hoặc Render để quản lý deploy.
-
-7. Rủi Ro và Giải Pháp
-
-
-
-Rủi ro
-Giải pháp
-
-
-
-Giới hạn băng thông dịch vụ
-Giám sát, tối ưu truy cập, nâng cấp khi cần
-
-
-Vấn đề CORS khi gọi API
-Cấu hình CORS backend chính xác
-
-
-Upload file lớn gặp lỗi
-Giới hạn kích thước, xử lý upload chunk
-
-
-Bản quyền nhạc
-Sử dụng nhạc miễn phí, hợp pháp
-
-
-8. Cấu Trúc Thư Mục
-Cấu trúc thư mục cho Frontend (ReactJS)
-web/
-├── public/
-│   ├── index.html          # Tệp HTML chính của ứng dụng
-│   ├── assets/             # Thư mục chứa các tài nguyên như ảnh, font, v.v.
-│   │   └── logo.png
-│   └── manifest.json       # Thông tin về ứng dụng
-│
-├── src/
-│   ├── assets/             # Tài nguyên nội bộ (hình ảnh, âm thanh, v.v.)
-│   ├── components/         # Các component giao diện (Button, Header, Footer, v.v.)
-│   │   ├── Player.js       # Component phát nhạc
-│   │   ├── SongList.js     # Component hiển thị danh sách bài hát
-│   │   └── SearchBar.js    # Component tìm kiếm
-│   │
-│   ├── contexts/           # Quản lý trạng thái toàn cục (React Context)
-│   │   └── MusicContext.js
-│   │
-│   ├── pages/              # Các trang chính của website
-│   │   ├── HomePage.js     # Trang chủ
-│   │   ├── SearchPage.js   # Trang tìm kiếm
-│   │   └── AdminPage.js    # Trang quản lý bài hát (Admin)
-│   │
-│   ├── services/           # Các dịch vụ (API calls)
-│   │   └── api.js          # Tương tác với backend (lấy danh sách bài hát, upload file, v.v.)
-│   │
-│   ├── utils/              # Các hàm tiện ích
-│   │   └── helpers.js      # Các hàm hỗ trợ chung (format date, handle errors, v.v.)
-│   │
-│   ├── App.js              # Component chính của ứng dụng
-│   ├── index.js            # Điểm vào của ứng dụng
-│   ├── App.css             # Các kiểu CSS chung
-│   └── index.css           # Kiểu CSS toàn cục
-│
-├── package.json            # Các phụ thuộc của frontend
-└── README.md               # Tài liệu mô tả dự án
-
-Cấu trúc thư mục cho Backend (Python)
-api/
-├── app/
-│   ├── __init__.py         # Khởi tạo ứng dụng Flask/Django/FastAPI
-│   ├── models/             # Các mô hình (Model) dữ liệu (User, Song, Playlist, v.v.)
-│   │   ├── song.py         # Mô hình bài hát
-│   │   ├── user.py         # Mô hình người dùng
-│   │   └── playlist.py     # Mô hình playlist (nếu có)
-│   │
-│   ├── routes/             # Các route API
-│   │   ├── song_routes.py  # Các route liên quan đến bài hát
-│   │   ├── user_routes.py  # Các route liên quan đến người dùng
-│   │   └── playlist_routes.py
-│   │
-│   ├── services/           # Các dịch vụ logic (xử lý upload, tìm kiếm bài hát, v.v.)
-│   │   ├── upload_service.py  # Xử lý upload nhạc
-│   │   └── music_service.py   # Tìm kiếm, xử lý metadata bài hát
-│   │
-│   ├── utils/              # Các tiện ích bổ sung (xử lý file, cấu hình)
-│   │   └── config.py       # Cấu hình của ứng dụng (API keys, DB config)
-│   │
-│   ├── static/             # Các tệp tĩnh (nếu có, ví dụ như ảnh bìa)
-│   └── templates/          # Các mẫu HTML (nếu sử dụng Flask hoặc Django)
-│
-├── requirements.txt        # Các thư viện cần thiết cho backend 
-└── venv/               # Tài liệu mô tả dự án
-
-Cấu trúc thư mục chung
-root/
-├── web/               # Mã nguồn frontend (ReactJS)
-├── api/                # Mã nguồn backend (Python)
-├── .gitignore              # Các file và thư mục cần loại trừ khỏi Git
-└── README.md               # Tổng quan dự án
-
-Giải thích cấu trúc thư mục
-
-web:
-components: Các thành phần giao diện tái sử dụng (ví dụ: player, search bar, song list).
-contexts: Quản lý trạng thái toàn cục với React Context.
-services: Các dịch vụ API gọi tới backend.
-pages: Các trang chính của website (home, search, admin).
-
-
-api:
-models: Các mô hình dữ liệu tương ứng với các bảng trong database (như bài hát, người dùng).
-routes: Các endpoint API cho các hành động (CRUD) đối với bài hát, người dùng.
-services: Các chức năng hỗ trợ như upload nhạc, xử lý metadata, v.v.
-utils: Các tiện ích phụ trợ như cấu hình, helper functions.
-
-
-Các tệp cấu hình:
-.env: Biến môi trường giúp lưu trữ các thông tin nhạy cảm như API keys, thông tin đăng nhập database.
-
-
-
-9. Kết Luận
-Dự án sẽ giúp bạn:
-
-Học tập quy trình phát triển web fullstack.
-Thực hành tích hợp frontend-backend và dịch vụ lưu trữ.
-Triển khai ứng dụng trên nền tảng miễn phí hiệu quả.
