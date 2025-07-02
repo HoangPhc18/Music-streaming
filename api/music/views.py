@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import generics, viewsets, filters
+from rest_framework import generics, viewsets, filters, parsers
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
 from .models import Profile, Artist, Genre, Album, Song, Playlist, PlaylistSong, Favorite, PlayHistory
@@ -14,11 +14,13 @@ from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, parser_classes
 from django.db.models import Q
 import os
 from django.http import FileResponse, Http404
 from django.conf import settings
+import uuid
+from datetime import datetime
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -179,6 +181,107 @@ class SongViewSet(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
+    
+    @action(detail=False, methods=['post'], permission_classes=[IsAdminUser], parser_classes=[parsers.MultiPartParser, parsers.FormParser])
+    def upload(self, request):
+        """
+        Upload a new song file and create a song record
+        """
+        try:
+            # Get form data
+            title = request.data.get('title')
+            artist_id = request.data.get('artist_id')
+            album_id = request.data.get('album_id')
+            genre_id = request.data.get('genre_id')
+            release_date = request.data.get('release_date')
+            is_featured = request.data.get('is_featured', 'false').lower() == 'true'
+            is_public = request.data.get('is_public', 'true').lower() == 'true'
+            music_file = request.FILES.get('file')
+            
+            # Validate required fields
+            if not title or not artist_id or not genre_id or not music_file:
+                return Response({
+                    'error': 'Missing required fields: title, artist_id, genre_id, file'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Validate file type
+            valid_extensions = ['.mp3', '.wav', '.ogg', '.flac']
+            ext = os.path.splitext(music_file.name)[1].lower()
+            if ext not in valid_extensions:
+                return Response({
+                    'error': f'Invalid file type. Allowed types: {", ".join(valid_extensions)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Validate file size (max 20MB)
+            max_size = 20 * 1024 * 1024  # 20MB
+            if music_file.size > max_size:
+                return Response({
+                    'error': 'File too large. Maximum size is 20MB.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Check if artist exists
+            try:
+                artist = Artist.objects.get(pk=artist_id)
+            except Artist.DoesNotExist:
+                return Response({
+                    'error': 'Artist not found'
+                }, status=status.HTTP_404_NOT_FOUND)
+            
+            # Check if album exists (if provided)
+            album = None
+            if album_id:
+                try:
+                    album = Album.objects.get(pk=album_id)
+                except Album.DoesNotExist:
+                    return Response({
+                        'error': 'Album not found'
+                    }, status=status.HTTP_404_NOT_FOUND)
+            
+            # Check if genre exists
+            try:
+                genre = Genre.objects.get(pk=genre_id)
+            except Genre.DoesNotExist:
+                return Response({
+                    'error': 'Genre not found'
+                }, status=status.HTTP_404_NOT_FOUND)
+            
+            # Create directory for uploads if it doesn't exist
+            upload_dir = os.path.join(settings.MEDIA_ROOT, 'music')
+            os.makedirs(upload_dir, exist_ok=True)
+            
+            # Generate unique filename
+            filename = f"{uuid.uuid4()}{ext}"
+            file_path = os.path.join('music', filename)
+            full_path = os.path.join(settings.MEDIA_ROOT, file_path)
+            
+            # Save file to disk
+            with open(full_path, 'wb+') as destination:
+                for chunk in music_file.chunks():
+                    destination.write(chunk)
+            
+            # Get audio duration (would use a library like mutagen in production)
+            # For now, we'll use a placeholder
+            duration = 180  # 3 minutes in seconds
+            
+            # Create song record
+            song = Song.objects.create(
+                title=title,
+                artist=artist,
+                album=album,
+                genre=genre,
+                file_path=file_path,
+                duration=duration,
+                release_date=release_date or datetime.now().date()
+            )
+            
+            # Return response
+            serializer = SongDetailSerializer(song, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            return Response({
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @action(detail=True, methods=['get'])
     def stream(self, request, pk=None):

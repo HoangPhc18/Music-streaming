@@ -5,6 +5,11 @@
   width: 100%;
   height: 90px;
   z-index: 1000;
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
@@ -13,12 +18,16 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .player-left {
   display: flex;
   align-items: center;
   width: 25%;
+  min-width: 200px;
 }
 
 .current-song {
@@ -29,10 +38,15 @@
 .song-cover {
   width: 60px;
   height: 60px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-right: 15px;
   object-fit: cover;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.song-cover:hover {
+  transform: scale(1.05);
 }
 
 .song-info {
@@ -46,6 +60,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #fff;
 }
 
 .song-artist {
@@ -61,10 +76,21 @@
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   margin-left: 15px;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.favorite-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .favorite-btn.active {
@@ -77,13 +103,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 20px;
 }
 
 .player-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .control-btn {
@@ -92,38 +119,41 @@
   color: var(--text-color);
   font-size: 16px;
   cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 10px;
+  margin: 0 12px;
   transition: all 0.3s ease;
+  border-radius: 50%;
 }
 
 .control-btn:hover {
   color: var(--accent-color);
   transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .play-btn {
-  width: 40px;
-  height: 40px;
-  background: var(--gradient-1);
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
   border-radius: 50%;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
+  box-shadow: 0 2px 10px rgba(138, 43, 226, 0.4);
 }
 
 .play-btn:hover {
   color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
 }
 
 .progress-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   align-items: center;
 }
@@ -131,18 +161,24 @@
 .time {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
-  width: 40px;
+  width: 45px;
   text-align: center;
+  font-family: monospace;
 }
 
 .progress-bar {
   flex: 1;
-  height: 4px;
+  height: 5px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
+  border-radius: 3px;
   margin: 0 10px;
   position: relative;
   cursor: pointer;
+  transition: height 0.2s ease;
+}
+
+.progress-bar:hover {
+  height: 8px;
 }
 
 .progress-filled {
@@ -150,17 +186,17 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--accent-color);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+  border-radius: 3px;
   pointer-events: none;
 }
 
 .progress-input {
   position: absolute;
-  top: 0;
+  top: -8px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 16px);
   opacity: 0;
   cursor: pointer;
   z-index: 2;
@@ -171,6 +207,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 25%;
+  min-width: 180px;
 }
 
 .volume-container {
@@ -181,8 +218,14 @@
 
 .volume-icon {
   color: var(--text-color);
-  font-size: 16px;
-  margin-right: 10px;
+  font-size: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.volume-icon:hover {
+  color: var(--accent-color);
 }
 
 .volume-bar {
@@ -192,6 +235,11 @@
   border-radius: 2px;
   position: relative;
   cursor: pointer;
+  transition: height 0.2s ease;
+}
+
+.volume-bar:hover {
+  height: 6px;
 }
 
 .volume-filled {
@@ -199,25 +247,83 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--text-color);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 2px;
   pointer-events: none;
 }
 
 .volume-input {
   position: absolute;
-  top: 0;
+  top: -8px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 16px);
   opacity: 0;
   cursor: pointer;
   z-index: 2;
 }
 
+.additional-controls {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.queue-btn, .lyrics-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.queue-btn:hover, .lyrics-btn:hover {
+  color: var(--accent-color);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 992px) {
+  .player-left {
+    width: 30%;
+    min-width: 160px;
+  }
+  
+  .player-right {
+    width: 20%;
+    min-width: 140px;
+  }
+  
+  .additional-controls {
+    margin-left: 10px;
+  }
+}
+
 @media (max-width: 768px) {
+  .music-player {
+    height: 80px;
+  }
+
+  .player-container {
+    padding: 0 15px;
+  }
+  
   .player-left {
     width: 40%;
+    min-width: 120px;
+  }
+  
+  .song-cover {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
   }
   
   .song-info {
@@ -229,22 +335,43 @@
   }
   
   .player-controls {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
   
   .control-btn {
-    margin: 0 5px;
-    width: 28px;
-    height: 28px;
+    margin: 0 8px;
+    width: 32px;
+    height: 32px;
     font-size: 14px;
   }
   
   .play-btn {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   
   .progress-container {
     max-width: 100%;
+  }
+  
+  .time {
+    width: 40px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .player-left {
+    min-width: 100px;
+  }
+  
+  .favorite-btn {
+    display: none;
+  }
+  
+  .control-btn:not(.play-btn) {
+    margin: 0 5px;
+    width: 28px;
+    height: 28px;
   }
 } 

@@ -5,10 +5,12 @@
   right: 0;
   height: 70px;
   z-index: 1000;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background-color: rgba(32, 7, 80, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(18, 18, 18, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .navbar-container {
@@ -16,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 20px;
+  padding: 0 25px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -31,10 +33,16 @@
   font-weight: 700;
   color: #fff;
   text-decoration: none;
-  background: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+  background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-right: 20px;
+  letter-spacing: -0.5px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .navbar-search {
@@ -50,27 +58,30 @@
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 15px;
   top: 50%;
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
 }
 
 .search-input {
   width: 100%;
-  padding: 10px 10px 10px 40px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: 12px 15px 12px 42px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.07);
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-color);
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
 }
 
 .search-input::placeholder {
@@ -90,74 +101,92 @@
 .user-profile-btn {
   display: flex;
   align-items: center;
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 20px;
+  padding: 6px 15px;
+  border-radius: 30px;
   color: #fff;
   transition: all 0.3s ease;
 }
 
 .user-profile-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 8px;
+  margin-right: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-avatar-placeholder {
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+  background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: bold;
-  margin-right: 8px;
+  margin-right: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-name {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 .user-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   right: 0;
-  width: 200px;
-  margin-top: 10px;
-  border-radius: 10px;
+  width: 220px;
+  margin-top: 5px;
+  border-radius: 12px;
   overflow: hidden;
   z-index: 1000;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeInDown 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 14px 18px;
   color: #fff;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .dropdown-item svg {
-  margin-right: 10px;
-  font-size: 1rem;
+  margin-right: 12px;
+  font-size: 1.1rem;
 }
 
 .dropdown-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 22px;
 }
 
 .logout-btn {
@@ -168,18 +197,19 @@
   cursor: pointer;
   color: #ff6b6b;
   font-size: 1rem;
+  font-family: inherit;
 }
 
 /* Styles for auth buttons */
 .auth-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .btn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -187,27 +217,39 @@
 
 .btn-login {
   color: #fff;
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-login:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .btn-register {
   color: #fff;
-  background: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+  background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
   border: none;
+  box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
 }
 
 .btn-register:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(138, 43, 226, 0.4);
 }
 
 /* Responsive styles */
+@media (max-width: 992px) {
+  .navbar-search {
+    max-width: 300px;
+  }
+}
+
 @media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+  }
+  
   .navbar-search {
     display: none;
   }
@@ -217,21 +259,30 @@
   }
   
   .auth-buttons {
-    gap: 5px;
+    gap: 8px;
   }
   
   .btn {
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .navbar-container {
+    padding: 0 15px;
   }
 }
 
 @media (max-width: 480px) {
   .navbar-container {
-    padding: 0 10px;
+    padding: 0 12px;
   }
   
   .logo {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+  
+  .btn {
+    padding: 7px 12px;
+    font-size: 0.85rem;
   }
 } 

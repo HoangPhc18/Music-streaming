@@ -1,0 +1,109 @@
+/* Chung cho tất cả các trang quản lý */
+.data-table-container {
+  color: #333;
+}
+
+.data-table th {
+  color: #333;
+  font-weight: 600;
+}
+
+.data-table td {
+  color: #333;
+}
+
+
+.data-table tbody tr {
+  background-color: #ffffff;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+
+.modal-content {
+  color: #333;
+}
+
+.form-group label {
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  color: #333;
+  background-color: #fff;
+}
+
+/* Điều chỉnh màu nền và chữ cho các badge */
+.role-badge, .status-badge {
+  font-weight: 600;
+}
+
+.role-badge.admin {
+  background-color: #ff595e;
+  color: white;
+}
+
+.role-badge.moderator {
+  background-color: #ffca3a;
+  color: #333;
+}
+
+.role-badge.user {
+  background-color: #8ac926;
+  color: white;
+}
+
+.status-badge.active {
+  background-color: #8ac926;
+  color: white;
+}
+
+.status-badge.inactive {
+  background-color: #d3d3d3;
+  color: #333;
+}
+
+/* Điều chỉnh màu chữ cho các nút */
+.action-button.view {
+  color: #3a86ff;
+}
+
+.action-button.edit {
+  color: #4cc9f0;
+}
+
+.action-button.delete {
+  color: #e63946;
+}
+
+/* Đảm bảo màu chữ cho các tiêu đề */
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+}
+
+/* Điều chỉnh màu chữ cho phần tìm kiếm và phân trang */
+.search-input {
+  color: #333;
+}
+
+.pagination-button {
+  color: #333;
+}
+
+.pagination-button.active {
+  color: white;
+}
+
+/* Điều chỉnh màu chữ cho thông báo lỗi và thành công */
+.alert.error {
+  color: #c62828;
+}
+
+.alert.success {
+  color: #2e7d32;
+} 

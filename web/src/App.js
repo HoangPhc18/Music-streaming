@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
@@ -13,6 +13,21 @@ import Register from './pages/Register';
 import { AuthProvider } from './context/AuthContext';
 import { MusicProvider } from './context/MusicContext';
 import { useAuth } from './context/AuthContext';
+
+// Admin components
+import AdminLayout from './admin/AdminLayout';
+import AdminLogin from './admin/AdminLogin';
+import AdminGuard from './admin/AdminGuard';
+import Dashboard from './admin/Dashboard';
+import ArtistsManagement from './admin/ArtistsManagement';
+import AlbumsManagement from './admin/AlbumsManagement';
+import SongsManagement from './admin/SongsManagement';
+import GenresManagement from './admin/GenresManagement';
+import UsersManagement from './admin/UsersManagement';
+import PlaylistsManagement from './admin/PlaylistsManagement';
+import SystemSettings from './admin/SystemSettings';
+import UploadMusic from './admin/UploadMusic';
+
 import './App.css';
 
 // Bảo vệ routes yêu cầu đăng nhập
@@ -55,38 +70,74 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-// Wrapper component để tránh lỗi khi sử dụng useAuth trong App
-const AppRoutes = () => {
+// ScrollToTop component to scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
+// AnimatedRoutes component for page transitions
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
   return (
-    <Routes>
-      <Route path="/" element={<Layout><Home /></Layout>} />
-      <Route path="/explore" element={<Layout><Explore /></Layout>} />
-      <Route path="/library" element={
-        <ProtectedRoute>
-          <Layout><Library /></Layout>
-        </ProtectedRoute>
-      } />
-      <Route path="/profile" element={
-        <ProtectedRoute>
-          <Layout><Profile /></Layout>
-        </ProtectedRoute>
-      } />
-      <Route path="/song/:id" element={<Layout><SongDetail /></Layout>} />
-      <Route path="/album/:id" element={<Layout><AlbumDetail /></Layout>} />
-      <Route path="/artist/:id" element={<Layout><ArtistDetail /></Layout>} />
-      
-      {/* Auth routes */}
-      <Route path="/login" element={
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      } />
-      <Route path="/register" element={
-        <PublicRoute>
-          <Register />
-        </PublicRoute>
-      } />
-    </Routes>
+    <div className="page-container">
+      <Routes location={location}>
+        {/* Main App Routes */}
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/explore" element={<Layout><Explore /></Layout>} />
+        <Route path="/library" element={
+          <ProtectedRoute>
+            <Layout><Library /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Layout><Profile /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/song/:id" element={<Layout><SongDetail /></Layout>} />
+        <Route path="/album/:id" element={<Layout><AlbumDetail /></Layout>} />
+        <Route path="/artist/:id" element={<Layout><ArtistDetail /></Layout>} />
+        
+        {/* Auth routes */}
+        <Route path="/login" element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        } />
+        <Route path="/register" element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        } />
+        
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminGuard />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="artists" element={<ArtistsManagement />} />
+            <Route path="albums" element={<AlbumsManagement />} />
+            <Route path="songs" element={<SongsManagement />} />
+            <Route path="upload" element={<UploadMusic />} />
+            <Route path="genres" element={<GenresManagement />} />
+            <Route path="users" element={<UsersManagement />} />
+            <Route path="playlists" element={<PlaylistsManagement />} />
+            <Route path="settings" element={<SystemSettings />} />
+          </Route>
+        </Route>
+        
+        {/* Catch all route */}
+        <Route path="*" element={<div>Page Not Found</div>} />
+      </Routes>
+    </div>
   );
 };
 
@@ -95,7 +146,8 @@ function App() {
     <Router>
       <AuthProvider>
         <MusicProvider>
-          <AppRoutes />
+          <ScrollToTop />
+          <AnimatedRoutes />
         </MusicProvider>
       </AuthProvider>
     </Router>

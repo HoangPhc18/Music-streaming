@@ -55,6 +55,14 @@ export const songService = {
   getById: (id) => api.get(`/songs/${id}/`),
   search: (query) => api.get(`/songs/search/`, { params: { q: query } }),
   getStreamUrl: (id) => api.get(`/songs/${id}/play_url/`),
+  upload: (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    return api.post('/songs/upload/', formData, config);
+  },
 };
 
 // Genres services
@@ -86,6 +94,37 @@ export const favoriteService = {
 // Play history services
 export const historyService = {
   getAll: () => api.get('/history/'),
+};
+
+// Admin services
+export const adminService = {
+  // Artists management
+  createArtist: (artistData) => api.post('/artists/', artistData),
+  updateArtist: (id, artistData) => api.put(`/artists/${id}/`, artistData),
+  deleteArtist: (id) => api.delete(`/artists/${id}/`),
+  
+  // Albums management
+  createAlbum: (albumData) => api.post('/albums/', albumData),
+  updateAlbum: (id, albumData) => api.put(`/albums/${id}/`, albumData),
+  deleteAlbum: (id) => api.delete(`/albums/${id}/`),
+  
+  // Songs management
+  createSong: (songData) => api.post('/songs/', songData),
+  updateSong: (id, songData) => api.put(`/songs/${id}/`, songData),
+  deleteSong: (id) => api.delete(`/songs/${id}/`),
+  uploadSong: (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    return api.post('/songs/upload/', formData, config);
+  },
+  
+  // Genres management
+  createGenre: (genreData) => api.post('/genres/', genreData),
+  updateGenre: (id, genreData) => api.put(`/genres/${id}/`, genreData),
+  deleteGenre: (id) => api.delete(`/genres/${id}/`),
 };
 
 export default api; 

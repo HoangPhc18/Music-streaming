@@ -12,7 +12,7 @@ const Card = ({
   link 
 }) => {
   return (
-    <div className="card glass-effect">
+    <div className="card glass-effect" data-type={type}>
       <Link to={link} className="card-link">
         <div className="card-image-container">
           <img src={imageUrl} alt={title} className="card-image" />
