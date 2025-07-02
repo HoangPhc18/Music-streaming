@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaPlay, FaHeart, FaEllipsisH, FaShare } from 'react-icons/fa';
 import Card from '../components/ui/Card';
@@ -16,7 +16,7 @@ const ArtistDetail = () => {
   const artistData = {
     id: id,
     name: 'Sơn Tùng M-TP',
-    bio: 'Nguyễn Thanh Tùng (sinh ngày 5 tháng 7 năm 1994), thường được biết đến với nghệ danh Sơn Tùng M-TP, là một ca sĩ kiêm sáng tác nhạc, rapper và diễn viên người Việt Nam. Sinh ra ở thành phố Thái Bình, thời điểm đầu sự nghiệp, anh từng tham gia một nhóm nhạc đa phương mang tên Over Band.',
+    bio: 'Nguyễn Thanh Tùng (sinh ngày 5 tháng 7 năm 1994), thường được biết đến với nghệ danh Sơn Tùng M-TP, là một ca sĩ kiêm sáng tác nhạc, rapper và diễn viên người Việt Nam. Sinh ra ở thành phố Thái Bình, thời điểm đầu sự nghiệp, anh từng tham gia một nhóm nhạc địa phương mang tên Over Band.',
     coverImage: 'https://via.placeholder.com/1500x500',
     profileImage: 'https://via.placeholder.com/500',
     monthlyListeners: 1240000,
@@ -321,37 +321,48 @@ const ArtistDetail = () => {
 
   const renderAbout = () => (
     <div className="artist-full-about glass-effect">
-      <h3>Về nghệ sĩ</h3>
-      <p className="artist-bio">{artist.bio}</p>
-      <div className="artist-stats">
-        <div className="stat-item">
-          <span className="stat-value">{formatNumber(artist.monthlyListeners)}</span>
-          <span className="stat-label">Người nghe hàng tháng</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-value">{formatNumber(artist.followers)}</span>
-          <span className="stat-label">Người theo dõi</span>
-        </div>
+      <h3>Thông tin nghệ sĩ</h3>
+      <div className="artist-bio-full">
+        <p>{artist.bio}</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget felis eget urna ultrices finibus. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.</p>
+        <p>Nullam eget felis eget urna ultrices finibus. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.</p>
       </div>
       <div className="artist-genres">
         <h4>Thể loại</h4>
         <div className="genre-tags">
           {artist.genres.map((genre, index) => (
-            <span className="genre-tag" key={index}>{genre}</span>
+            <Link to={`/genre/${genre.toLowerCase().replace(' ', '-')}`} key={index} className="genre-tag">
+              {genre}
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className="artist-social">
+        <h4>Liên kết</h4>
+        <div className="social-links">
+          {Object.entries(artist.socialLinks).map(([platform, url]) => (
+            <a href={url} target="_blank" rel="noopener noreferrer" key={platform} className="social-link">
+              {platform.charAt(0).toUpperCase() + platform.slice(1)}
+            </a>
           ))}
         </div>
       </div>
     </div>
   );
 
-  const formatNumber = (num) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'overview':
+        return renderOverview();
+      case 'songs':
+        return renderSongs();
+      case 'albums':
+        return renderAlbums();
+      case 'about':
+        return renderAbout();
+      default:
+        return renderOverview();
     }
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K';
-    }
-    return num.toString();
   };
 
   return (
@@ -372,10 +383,10 @@ const ArtistDetail = () => {
               </div>
               <div className="artist-actions">
                 <button className="play-btn" onClick={handlePlayPopularSong}>
-                  <FaPlay /> Phát nhạc
+                  <FaPlay /> Phát
                 </button>
                 <button 
-                  className={`follow-btn ${isFollowing ? 'following' : ''}`}
+                  className={`follow-btn ${isFollowing ? 'following' : ''}`} 
                   onClick={toggleFollow}
                 >
                   {isFollowing ? 'Đang theo dõi' : 'Theo dõi'}
@@ -417,13 +428,21 @@ const ArtistDetail = () => {
       </div>
 
       <div className="artist-content">
-        {activeTab === 'overview' && renderOverview()}
-        {activeTab === 'songs' && renderSongs()}
-        {activeTab === 'albums' && renderAlbums()}
-        {activeTab === 'about' && renderAbout()}
+        {renderContent()}
       </div>
     </div>
   );
+};
+
+// Helper function to format numbers
+const formatNumber = (num) => {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';
+  }
+  return num.toString();
 };
 
 export default ArtistDetail;

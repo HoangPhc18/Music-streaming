@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import { authService } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -14,19 +14,15 @@ export const AuthProvider = ({ children }) => {
     // Kiểm tra xem người dùng đã đăng nhập chưa khi tải trang
     const token = localStorage.getItem('token');
     if (token) {
-      getUserProfile(token);
+      getUserProfile();
     } else {
       setLoading(false);
     }
   }, []);
 
-  const getUserProfile = async (token) => {
+  const getUserProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/profile/', {
-        headers: {
-          Authorization: `Token ${token}`
-        }
-      });
+      const response = await authService.getProfile();
       setCurrentUser(response.data);
       setLoading(false);
     } catch (err) {
@@ -39,16 +35,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
-      const response = await axios.post('http://localhost:8000/api/auth/login/', {
-        username: email,
-        password
-      });
+      const response = await authService.login(email, password);
       
       const { token, user_id, username } = response.data;
       localStorage.setItem('token', token);
       
       // Lấy thông tin chi tiết của người dùng
-      await getUserProfile(token);
+      await getUserProfile();
       
       return { success: true };
     } catch (err) {
@@ -60,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       setError(null);
-      const response = await axios.post('http://localhost:8000/api/auth/register/', userData);
+      const response = await authService.register(userData);
       return { success: true, data: response.data };
     } catch (err) {
       const errorMessages = err.response?.data;
@@ -69,9 +62,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    setCurrentUser(null);
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (err) {
+      console.error('Error logging out:', err);
+    } finally {
+      localStorage.removeItem('token');
+      setCurrentUser(null);
+    }
   };
 
   const value = {

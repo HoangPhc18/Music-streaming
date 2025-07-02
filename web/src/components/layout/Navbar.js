@@ -1,62 +1,95 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaSearch, FaUser, FaBars } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaSearch, FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/explore?q=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery('');
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setShowUserMenu(false);
+    navigate('/');
+  };
+
+  const toggleUserMenu = () => {
+    setShowUserMenu(!showUserMenu);
+  };
 
   return (
-    <nav className="navbar glass-effect">
-      <div className="container navbar-container">
-        <div className="navbar-left">
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-brand">
           <Link to="/" className="logo">
-            <span className="logo-text">Melodify</span>
+            Melodify
           </Link>
-          <div className={`search-bar ${searchOpen ? 'active' : ''}`}>
-            <input 
-              type="text" 
-              placeholder="Tìm kiếm bài hát, nghệ sĩ, album..." 
-              className="search-input"
-            />
-            <button className="search-btn">
-              <FaSearch />
-            </button>
-          </div>
         </div>
-
-        <div className="navbar-right">
-          <button 
-            className="search-toggle"
-            onClick={() => setSearchOpen(!searchOpen)}
-          >
-            <FaSearch />
-          </button>
-          <div className="nav-links">
-            <Link to="/" className="nav-link">Trang chủ</Link>
-            <Link to="/explore" className="nav-link">Khám phá</Link>
-            <Link to="/library" className="nav-link">Thư viện</Link>
-          </div>
-          <Link to="/profile" className="profile-btn">
-            <FaUser />
-          </Link>
-          <button 
-            className="mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <FaBars />
-          </button>
+        
+        <div className="navbar-search">
+          <form onSubmit={handleSearch}>
+            <div className="search-container">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Tìm kiếm bài hát, nghệ sĩ, album..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+            </div>
+          </form>
         </div>
-      </div>
-
-      {/* Mobile menu */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
-        <div className="mobile-menu-content glass-effect">
-          <Link to="/" className="mobile-nav-link">Trang chủ</Link>
-          <Link to="/explore" className="mobile-nav-link">Khám phá</Link>
-          <Link to="/library" className="mobile-nav-link">Thư viện</Link>
-          <Link to="/profile" className="mobile-nav-link">Hồ sơ</Link>
+        
+        <div className="navbar-user">
+          {currentUser ? (
+            <div className="user-menu-container">
+              <button className="user-profile-btn" onClick={toggleUserMenu}>
+                {currentUser.profile_image ? (
+                  <img 
+                    src={currentUser.profile_image} 
+                    alt={currentUser.username} 
+                    className="user-avatar" 
+                  />
+                ) : (
+                  <div className="user-avatar-placeholder">
+                    {currentUser.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <span className="user-name">{currentUser.username}</span>
+              </button>
+              
+              {showUserMenu && (
+                <div className="user-dropdown glass-effect">
+                  <Link to="/profile" className="dropdown-item" onClick={() => setShowUserMenu(false)}>
+                    <FaUser /> Hồ sơ
+                  </Link>
+                  <Link to="/settings" className="dropdown-item" onClick={() => setShowUserMenu(false)}>
+                    <FaCog /> Cài đặt
+                  </Link>
+                  <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                    <FaSignOutAlt /> Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="auth-buttons">
+              <Link to="/login" className="btn btn-login">Đăng nhập</Link>
+              <Link to="/register" className="btn btn-register">Đăng ký</Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

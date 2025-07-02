@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <MusicProvider>
-        <App />
+    <App />
       </MusicProvider>
     </AuthProvider>
   </React.StrictMode>

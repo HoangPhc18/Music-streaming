@@ -1,184 +1,141 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import Card from '../components/ui/Card';
+import { songService, artistService, albumService, genreService } from '../utils/api';
 import './Explore.css';
 
 const Explore = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
+  
+  const [songs, setSongs] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Mock data
-  const songs = [
-    {
-      id: 1,
-      title: 'Hạ Còn Vương Nắng',
-      subtitle: 'DATKAA, KIDO',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/song/1',
-      type: 'song'
-    },
-    {
-      id: 2,
-      title: 'Waiting For You',
-      subtitle: 'MONO',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/song/2',
-      type: 'song'
-    },
-    {
-      id: 3,
-      title: 'Có Chơi Có Chịu',
-      subtitle: 'KARIK, ONLY C',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/song/3',
-      type: 'song'
-    },
-    {
-      id: 4,
-      title: 'Tiny Love',
-      subtitle: 'Thịnh Suy',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/song/4',
-      type: 'song'
-    }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch initial data
+        const [songsResponse, albumsResponse, artistsResponse, genresResponse] = await Promise.all([
+          songService.getAll({ limit: 8 }),
+          albumService.getAll({ limit: 8 }),
+          artistService.getAll({ limit: 8 }),
+          genreService.getAll()
+        ]);
+        
+        setSongs(songsResponse.data.results || []);
+        setAlbums(albumsResponse.data.results || []);
+        setArtists(artistsResponse.data.results || []);
+        setGenres(genresResponse.data.results || []);
+        
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching explore data:', err);
+        setError('Không thể tải dữ liệu. Vui lòng thử lại sau.');
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
 
-  const albums = [
-    {
-      id: 1,
-      title: 'Chúng Ta Của Hiện Tại',
-      subtitle: 'Sơn Tùng M-TP',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/album/1',
-      type: 'album'
-    },
-    {
-      id: 2,
-      title: 'Tâm 9',
-      subtitle: 'Mỹ Tâm',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/album/2',
-      type: 'album'
-    },
-    {
-      id: 3,
-      title: 'Hoàng',
-      subtitle: 'Hoàng Thùy Linh',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/album/3',
-      type: 'album'
-    },
-    {
-      id: 4,
-      title: 'Gần Như Là',
-      subtitle: 'Thịnh Suy',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/album/4',
-      type: 'album'
-    }
-  ];
-
-  const artists = [
-    {
-      id: 1,
-      title: 'Sơn Tùng M-TP',
-      subtitle: 'Nghệ sĩ',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/artist/1',
-      type: 'artist'
-    },
-    {
-      id: 2,
-      title: 'Bích Phương',
-      subtitle: 'Nghệ sĩ',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/artist/2',
-      type: 'artist'
-    },
-    {
-      id: 3,
-      title: 'Hoàng Thùy Linh',
-      subtitle: 'Nghệ sĩ',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/artist/3',
-      type: 'artist'
-    },
-    {
-      id: 4,
-      title: 'Đen Vâu',
-      subtitle: 'Nghệ sĩ',
-      imageUrl: 'https://via.placeholder.com/300',
-      link: '/artist/4',
-      type: 'artist'
-    }
-  ];
-
-  const genres = [
-    {
-      id: 1,
-      name: 'Nhạc Trẻ',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%)'
-    },
-    {
-      id: 2,
-      name: 'Ballad',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)'
-    },
-    {
-      id: 3,
-      name: 'Rock',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #1E90FF 0%, #00BFFF 100%)'
-    },
-    {
-      id: 4,
-      name: 'Hip Hop',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #00C853 0%, #B2FF59 100%)'
-    },
-    {
-      id: 5,
-      name: 'R&B',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #FF4081 0%, #F50057 100%)'
-    },
-    {
-      id: 6,
-      name: 'EDM',
-      imageUrl: 'https://via.placeholder.com/300',
-      color: 'linear-gradient(135deg, #FFEB3B 0%, #FFC107 100%)'
-    }
-  ];
+  useEffect(() => {
+    const searchTimeout = setTimeout(async () => {
+      if (searchQuery.trim()) {
+        setIsSearching(true);
+        try {
+          const response = await songService.search(searchQuery);
+          setSearchResults(response.data || []);
+        } catch (err) {
+          console.error('Error searching:', err);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setSearchResults([]);
+      }
+    }, 500);
+    
+    return () => clearTimeout(searchTimeout);
+  }, [searchQuery]);
 
   // Filter content based on active tab and search query
   const getFilteredContent = () => {
+    if (searchQuery.trim() && searchResults.length > 0) {
+      return searchResults.map(song => ({
+        id: song.id,
+        title: song.title,
+        subtitle: song.artist?.name,
+        imageUrl: song.image_url || 'https://via.placeholder.com/300',
+        link: `/song/${song.id}`,
+        type: 'song'
+      }));
+    }
+    
     let content = [];
     
     if (activeTab === 'all' || activeTab === 'songs') {
-      content = [...content, ...songs];
+      content = [...content, ...songs.map(song => ({
+        id: song.id,
+        title: song.title,
+        subtitle: song.artist?.name,
+        imageUrl: song.image_url || 'https://via.placeholder.com/300',
+        link: `/song/${song.id}`,
+        type: 'song'
+      }))];
     }
     
     if (activeTab === 'all' || activeTab === 'albums') {
-      content = [...content, ...albums];
+      content = [...content, ...albums.map(album => ({
+        id: album.id,
+        title: album.title,
+        subtitle: album.artist?.name,
+        imageUrl: album.cover_image || 'https://via.placeholder.com/300',
+        link: `/album/${album.id}`,
+        type: 'album'
+      }))];
     }
     
     if (activeTab === 'all' || activeTab === 'artists') {
-      content = [...content, ...artists];
-    }
-    
-    if (searchQuery) {
-      content = content.filter(item => 
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        item.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      content = [...content, ...artists.map(artist => ({
+        id: artist.id,
+        title: artist.name,
+        subtitle: 'Nghệ sĩ',
+        imageUrl: artist.profile_image || 'https://via.placeholder.com/300',
+        link: `/artist/${artist.id}`,
+        type: 'artist'
+      }))];
     }
     
     return content;
   };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Đang tải...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Thử lại</button>
+      </div>
+    );
+  }
 
   return (
     <div className="explore-page">
@@ -202,107 +159,87 @@ const Explore = () => {
           </button>
         </div>
         
-        <div className="tabs-container">
-          <button 
-            className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Tất cả
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'songs' ? 'active' : ''}`}
-            onClick={() => setActiveTab('songs')}
-          >
-            Bài hát
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'albums' ? 'active' : ''}`}
-            onClick={() => setActiveTab('albums')}
-          >
-            Album
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'artists' ? 'active' : ''}`}
-            onClick={() => setActiveTab('artists')}
-          >
-            Nghệ sĩ
-          </button>
-        </div>
-      </div>
-
-      {filterOpen && (
-        <div className="filter-panel glass-effect">
-          <h3>Lọc theo</h3>
-          <div className="filter-options">
-            <div className="filter-group">
+        {filterOpen && (
+          <div className="filter-dropdown glass-effect">
+            <div className="filter-section">
               <h4>Thể loại</h4>
-              <div className="filter-checkboxes">
-                <label>
-                  <input type="checkbox" /> Nhạc Trẻ
-                </label>
-                <label>
-                  <input type="checkbox" /> Ballad
-                </label>
-                <label>
-                  <input type="checkbox" /> Rock
-                </label>
-                <label>
-                  <input type="checkbox" /> Hip Hop
-                </label>
+              <div className="filter-options">
+                {genres.slice(0, 6).map(genre => (
+                  <div className="filter-option" key={genre.id}>
+                    <input type="checkbox" id={`genre-${genre.id}`} />
+                    <label htmlFor={`genre-${genre.id}`}>{genre.name}</label>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="filter-group">
-              <h4>Năm phát hành</h4>
-              <div className="filter-checkboxes">
-                <label>
-                  <input type="checkbox" /> 2023
-                </label>
-                <label>
-                  <input type="checkbox" /> 2022
-                </label>
-                <label>
-                  <input type="checkbox" /> 2021
-                </label>
-                <label>
-                  <input type="checkbox" /> 2020
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="filter-actions">
-            <button className="btn btn-secondary">Đặt lại</button>
-            <button className="btn btn-primary">Áp dụng</button>
-          </div>
-        </div>
-      )}
-
-      <section className="section">
-        <h2 className="section-title">Thể loại</h2>
-        <div className="genre-grid">
-          {genres.map(genre => (
-            <Link to={`/genre/${genre.id}`} key={genre.id} className="genre-card" style={{background: genre.color}}>
-              <h3>{genre.name}</h3>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <h2 className="section-title">Khám phá</h2>
-        {getFilteredContent().length > 0 ? (
-          <div className="card-grid">
-            {getFilteredContent().map(item => (
-              <div className="card-item" key={`${item.type}-${item.id}`}>
-                <Card {...item} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="no-results">
-            <p>Không tìm thấy kết quả phù hợp.</p>
           </div>
         )}
-      </section>
+      </div>
+
+      <div className="explore-tabs">
+        <button 
+          className={`explore-tab ${activeTab === 'all' ? 'active' : ''}`}
+          onClick={() => setActiveTab('all')}
+        >
+          Tất cả
+        </button>
+        <button 
+          className={`explore-tab ${activeTab === 'songs' ? 'active' : ''}`}
+          onClick={() => setActiveTab('songs')}
+        >
+          Bài hát
+        </button>
+        <button 
+          className={`explore-tab ${activeTab === 'albums' ? 'active' : ''}`}
+          onClick={() => setActiveTab('albums')}
+        >
+          Album
+        </button>
+        <button 
+          className={`explore-tab ${activeTab === 'artists' ? 'active' : ''}`}
+          onClick={() => setActiveTab('artists')}
+        >
+          Nghệ sĩ
+        </button>
+      </div>
+
+      {isSearching ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Đang tìm kiếm...</p>
+        </div>
+      ) : (
+        <>
+          <div className="explore-content">
+            {getFilteredContent().length > 0 ? (
+              <div className="card-grid">
+                {getFilteredContent().map(item => (
+                  <div className="card-item" key={`${item.type}-${item.id}`}>
+                    <Card {...item} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="no-results">
+                <p>Không tìm thấy kết quả phù hợp</p>
+              </div>
+            )}
+          </div>
+
+          {activeTab === 'all' && !searchQuery && (
+            <div className="genres-section">
+              <h3 className="section-title">Thể loại</h3>
+              <div className="genres-grid">
+                {genres.map(genre => (
+                  <Link to={`/genre/${genre.id}`} key={genre.id} className="genre-card" style={{ background: genre.color || 'linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%)' }}>
+                    <h4>{genre.name}</h4>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

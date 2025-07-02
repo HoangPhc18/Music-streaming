@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useRef, useEffect } from 'react';
-import axios from 'axios';
+import { songService } from '../utils/api';
 
 const MusicContext = createContext();
 
@@ -35,9 +35,27 @@ export const MusicProvider = ({ children }) => {
     }
   }, [volume]);
 
-  const playSong = (song) => {
-    setCurrentSong(song);
-    setIsPlaying(true);
+  const playSong = async (song) => {
+    try {
+      // Nếu song đã có URL, phát trực tiếp
+      if (song.url) {
+        setCurrentSong(song);
+        setIsPlaying(true);
+        return;
+      }
+      
+      // Nếu không có URL, lấy URL stream từ API
+      const response = await songService.getStreamUrl(song.id);
+      const songWithUrl = {
+        ...song,
+        url: response.data.url
+      };
+      
+      setCurrentSong(songWithUrl);
+      setIsPlaying(true);
+    } catch (error) {
+      console.error('Error getting song URL:', error);
+    }
   };
 
   const pauseSong = () => {
@@ -60,14 +78,12 @@ export const MusicProvider = ({ children }) => {
         randomIndex = Math.floor(Math.random() * playlist.length);
       } while (randomIndex === currentIndex && playlist.length > 1);
       
-      setCurrentSong(playlist[randomIndex]);
+      playSong(playlist[randomIndex]);
     } else {
       // Phát bài tiếp theo trong danh sách
       const nextIndex = (currentIndex + 1) % playlist.length;
-      setCurrentSong(playlist[nextIndex]);
+      playSong(playlist[nextIndex]);
     }
-    
-    setIsPlaying(true);
   };
 
   const playPrevious = () => {
@@ -82,14 +98,12 @@ export const MusicProvider = ({ children }) => {
         randomIndex = Math.floor(Math.random() * playlist.length);
       } while (randomIndex === currentIndex && playlist.length > 1);
       
-      setCurrentSong(playlist[randomIndex]);
+      playSong(playlist[randomIndex]);
     } else {
       // Phát bài trước đó trong danh sách
       const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      setCurrentSong(playlist[prevIndex]);
+      playSong(playlist[prevIndex]);
     }
-    
-    setIsPlaying(true);
   };
 
   const handleTimeUpdate = () => {
